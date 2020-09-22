@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="./style/main.css" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/cosmo/bulmaswatch.min.css">
+  <link href="~bulma-calendar/dist/css/bulma-calendar.min.css" rel="stylesheet">
+  
+
   <title>To-Do List</title>
 </head>
 <body>
@@ -27,6 +30,30 @@
           <p class="control">
             <label for="to-do-title" class="label"> Title</label>
             <input type="text" class="input" id="to-do-title">
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <label for="to-do-description" class="label"> Description</label>
+            <textarea class="textarea" id="to-do-description" cols="20" rows="5"></textarea>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <label for="due-date" class="label">Due date</label>
+            <input type="text" class="input" id="due-date" />
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <label for="priority" class="label">Priority</label>
+            <input type="text" class="input" id="priority" />
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <label for="to-do-notes" class="label"> Notes</label>
+            <textarea class="textarea" id="to-do-notes" cols="20" rows="5"></textarea>
           </p>
         </div>
       </form>
