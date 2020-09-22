@@ -86,14 +86,38 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/helpers.js":
+/*!************************!*\
+  !*** ./src/helpers.js ***!
+  \************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\nconst domManipulation = (() => {\n  const addClasses = (element, arrayClassNames) => {\n    arrayClassNames.forEach(className => {\n      element.classList.add(className);\n    });\n  };\n\n  const addId = (element, newId) => {\n    element.id = newId;\n  };\n\n  const createImage = (source, alt, arrayClassNames = []) => {\n    const img = new Image();\n    img.src = source;\n    img.alt = alt;\n\n    if (arrayClassNames !== []) {\n      addClasses(img, arrayClassNames);\n    }\n\n    return img;\n  };\n\n  const createHtmlElement = ({\n    tag, parentElement, arrayClassNames = [], newId = '', text = '',\n  }) => {\n    const newElement = document.createElement(tag);\n\n    if (arrayClassNames !== []) {\n      addClasses(newElement, arrayClassNames);\n    }\n    if (newId !== '') {\n      addId(newElement, newId);\n    }\n    if (text !== '') {\n      newElement.innerHTML = text;\n    }\n    parentElement.appendChild(newElement);\n    return newElement;\n  };\n\n  return {\n    createHtmlElement, createImage,\n  };\n})();\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (domManipulation);\n\n//# sourceURL=webpack:///./src/helpers.js?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-eval("console.log('Test');\n\n//# sourceURL=webpack:///./src/index.js?");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers */ \"./src/helpers.js\");\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_style_css__WEBPACK_IMPORTED_MODULE_1__);\n\n\n\n\n//# sourceURL=webpack:///./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/style.css":
+/*!***********************!*\
+  !*** ./src/style.css ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./src/style.css?");
 
 /***/ })
 

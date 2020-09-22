@@ -4,10 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="./style/main.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/cosmo/bulmaswatch.min.css">
   <title>To-Do List</title>
 </head>
 <body>
-  <h1>TEST</h1>
+  <main class="columns">
+    <aside class="column is-3 has-text-centered">
+      <h2 class="title is-4">Projects</h2>
+      <div class="field has-addons">
+        <p class="control">
+          <input class="input" placeholder="Enter Title here..." type="text" name="project-title" id="project-title">
+        </p>
+        <p class="control">
+          <button class="button is-info" type="button">Add Project</button>
+        </p>
+      </div>
+    </aside>
+    <section class="column is-9 has-text-centered">
+      <h2 class="title is-4">To-Do</h2>
+    </section>
+  </main>
   <script src="main.js"></script>
 </body>
 </html>
