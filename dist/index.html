@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="./style/main.css" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/cosmo/bulmaswatch.min.css">
-  <link href="~bulma-calendar/dist/css/bulma-calendar.min.css" rel="stylesheet">
-  
-
   <title>To-Do List</title>
 </head>
 <body>
   <main class="columns">
-    <aside class="column is-3 has-text-centered">
-      <h2 class="title is-4">Projects</h2>
+    <aside class="column is-3 has-text-centered section">
+      <h2 class="title is-2">Projects</h2>
       <div class="field has-addons">
         <p class="control">
           <input class="input" placeholder="Enter Title here..." type="text" name="project-title" id="project-title">
@@ -22,26 +19,37 @@
           <button class="button is-info" type="button">Add Project</button>
         </p>
       </div>
+      <div>
+        <div class="field project-btn-container">
+            <button class="button project-btn">PROJECT TITLE</button>
+            <button class="button project-btn">PROJECT TITLE</button>
+            <button class="button project-btn">PROJECT TITLE</button>
+            <button class="button project-btn">PROJECT TITLE</button>
+        </div>
+      </div>
     </aside>
-    <section class="column is-9 has-text-centered">
-      <h2 class="title is-4">To-Do</h2>
-      <form action="" class="form column is-4 has-text-centered">
+    <section class="column is-9 has-text-centered section">
+      <h2 class="title is-2">To-Do's</h2>
+      <div class="field">
+        <button class="button is-primary" id="btn-show-form" type="button">Click here to add a new To-Do</button>
+      </div>
+      <form action="" class="form column is-4 container">
         <div class="field">
           <p class="control">
-            <label for="to-do-title" class="label"> Title</label>
+            <label for="to-do-title" class="label">Title</label>
             <input type="text" class="input" id="to-do-title">
           </p>
         </div>
         <div class="field">
           <p class="control">
-            <label for="to-do-description" class="label"> Description</label>
+            <label for="to-do-description" class="label">Description</label>
             <textarea class="textarea" id="to-do-description" cols="20" rows="5"></textarea>
           </p>
         </div>
         <div class="field">
           <p class="control">
-            <label for="due-date" class="label">Due date</label>
-            <input type="text" class="input" id="due-date" />
+            <label for="to-do-date" class="label">Due Date</label>
+            <input id="to-do-date" type="date">
           </p>
         </div>
         <div class="field">
@@ -52,11 +60,72 @@
         </div>
         <div class="field">
           <p class="control">
-            <label for="to-do-notes" class="label"> Notes</label>
+            <label for="to-do-notes" class="label">Notes</label>
             <textarea class="textarea" id="to-do-notes" cols="20" rows="5"></textarea>
           </p>
         </div>
+        <div class="field">
+          <p class="control">
+            <button class="button is-primary" type="button">Add To-Do</button>
+          </p>
+        </div>
       </form>
+      <div class="cards-container">
+        <div class="card column is-3">
+          <header class="card-header">
+            <h5 class="card-header-title priority-low">
+              To-Do Title
+            </h5>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              <label class="label">Due Date</label>
+              <small>11:09 PM - 1 Jan 2016</small>
+            </div>
+          </div>
+          <footer class="card-footer">
+            <a class="card-footer-item">Details</a>
+            <a class="card-footer-item">Edit</a>
+            <a class="card-footer-item">Delete</a>
+          </footer>
+        </div>
+        <div class="card column is-3">
+          <header class="card-header">
+            <h5 class="card-header-title priority-mid">
+              To-Do Title
+            </h5>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              <label class="label">Due Date</label>
+              <small>11:09 PM - 1 Jan 2016</small>
+            </div>
+          </div>
+          <footer class="card-footer">
+            <a class="card-footer-item">Details</a>
+            <a class="card-footer-item">Edit</a>
+            <a class="card-footer-item">Delete</a>
+          </footer>
+        </div>
+        <div class="card column is-3">
+          <header class="card-header">
+            <h5 class="card-header-title priority-high">
+              To-Do Title
+            </h5>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              <label class="label">Due Date</label>
+              <small>11:09 PM - 1 Jan 2016</small>
+            </div>
+          </div>
+          <footer class="card-footer">
+            <a class="card-footer-item">Details</a>
+            <a class="card-footer-item">Edit</a>
+            <a class="card-footer-item">Delete</a>
+          </footer>
+        </div>
+      </div>
     </section>
   </main>
   <script src="main.js"></script>
