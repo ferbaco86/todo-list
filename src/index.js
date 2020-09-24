@@ -153,6 +153,19 @@ btnAddTodo.addEventListener('click', () => {
     tag: 'small', parentElement: content, text: newTodo.getDueDate(),
   });
 
+  const cardFooter = domManipulation.createHtmlElement({ tag: 'footer', parentElement: cardColumn, arrayClassNames: ['card-footer'] });
+   domManipulation.createHtmlElement({
+    tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: 'Details'
+  });
+
+  domManipulation.createHtmlElement({
+    tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: 'Edit'
+  });
+
+  domManipulation.createHtmlElement({
+    tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: 'Delete'
+  });
+
   projectTodo.appendTodo(newTodo);
 
   // console.log(projectTodo.getTitle());
