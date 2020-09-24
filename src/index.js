@@ -96,9 +96,15 @@ btnAddProject.addEventListener('click', () => {
   const btnProject = domManipulation.createHtmlElement({
     tag: 'button', parentElement: projectContainer, arrayClassNames: ['button', 'project-btn'], text: projectTitle,
   });
-
+  const buttonList = document.querySelectorAll('.project-btn');
+  buttonList.forEach(element => {
+    if (element.classList.contains('active')) {
+      element.classList.remove('active');
+    }
+  });
   btnProject.setAttribute('id', counter);
   projectList.currentProjectId = counter;
+  btnProject.classList.add('active');
   counter += 1;
 });
 
