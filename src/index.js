@@ -2,7 +2,13 @@ import domManipulation from './helpers';
 import './style.css';
 
 let counter = 0;
-const projectList = [];
+const projectList = {
+  list: [],
+  currentProjectId: null,
+  getCurrent() {
+    return this.list[this.currentProjectId];
+  },
+};
 
 const project = (title, id) => {
   const todoArr = [];
@@ -71,18 +77,19 @@ const todo = (title, description, dueDate, priority, notes) => {
   };
 };
 
-const newProject = project('', '');
+// const newProject = project('', '');
 const newTodo = todo('', '', '', '', '');
 
 const btnAddProject = document.getElementById('btn-add-project');
 const btnAddTodo = document.getElementById('btn-add-todo');
+const projectContainer = document.getElementById('project-container');
 
 btnAddProject.addEventListener('click', () => {
-  projectList.push(newProject);
-  const projectContainer = document.getElementById('project-container');
   const projectTitleInput = document.getElementById('project-title').value;
-  newProject.setTitle(projectTitleInput);
-  newProject.setId(counter);
+  const newProject = project(projectTitleInput, counter);
+  projectList.list.push(newProject);
+  // newProject.setTitle(projectTitleInput);
+  // newProject.setId(counter);
 
   const projectTitle = newProject.getTitle();
 
@@ -91,10 +98,26 @@ btnAddProject.addEventListener('click', () => {
   });
 
   btnProject.setAttribute('id', counter);
+  projectList.currentProjectId = counter;
   counter += 1;
 });
 
+projectContainer.addEventListener('click', (e) => {
+  const selTarget = e.target;
+  if (selTarget.nodeName === 'BUTTON') {
+    projectList.currentProjectId = selTarget.getAttribute('id');
+    const buttonList = document.querySelectorAll('.project-btn');
+    buttonList.forEach((button) => {
+      if (button === selTarget && !button.classList.contains('active')) {
+        return button.classList.add('active');
+      }
+      return button.classList.remove('active');
+    });
+  }
+});
+
 btnAddTodo.addEventListener('click', () => {
+  const projectTodo = projectList.getCurrent();
   const todoTitle = document.getElementById('to-do-title').value;
   const todoDescription = document.getElementById('to-do-description').value;
   const todoDueDate = document.getElementById('to-do-date').value;
@@ -108,9 +131,9 @@ btnAddTodo.addEventListener('click', () => {
   newTodo.setPriority(todoPriority);
   newTodo.setNotes(todoNotes);
 
-  newProject.appendTodo(newTodo);
+  projectTodo.appendTodo(newTodo);
 
-  console.log(newProject.getTitle());
-  console.log(newProject.getTodo());
-  console.log(projectList[0].getTodo());
+  console.log(projectTodo.getTitle());
+  console.log(projectTodo.getTodo());
+  // console.log(projectList[0].getTodo());
 });

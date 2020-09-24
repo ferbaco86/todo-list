@@ -50,3 +50,7 @@ section {
 .card {
   margin: 15px;
 }
+
+.active {
+  outline: 6px solid  #ffadad !important;
+}
