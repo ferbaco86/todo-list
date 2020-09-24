@@ -137,9 +137,18 @@ btnAddTodo.addEventListener('click', () => {
   newTodo.setPriority(todoPriority);
   newTodo.setNotes(todoNotes);
 
+  const cardContainer = document.querySelector('.cards-container');
+  const cardColumn = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardContainer, arrayClassNames: ['card', 'column', 'is-3'] });
+  const cardHeader = domManipulation.createHtmlElement({ tag: 'header', parentElement: cardColumn, arrayClassNames: ['card-header'] });
+  const cardTitle = domManipulation.createHtmlElement({
+    tag: 'h5', parentElement: cardHeader, arrayClassNames: ['card-header-title', 'priority-low'], text: newTodo.getTitle(),
+  });
+  
+
   projectTodo.appendTodo(newTodo);
 
-  console.log(projectTodo.getTitle());
-  console.log(projectTodo.getTodo());
+  // console.log(projectTodo.getTitle());
+  // console.log(projectTodo.getTodo());
+  console.log(cardContainer);
   // console.log(projectList[0].getTodo());
 });
