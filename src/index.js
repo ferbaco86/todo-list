@@ -143,7 +143,15 @@ btnAddTodo.addEventListener('click', () => {
   const cardTitle = domManipulation.createHtmlElement({
     tag: 'h5', parentElement: cardHeader, arrayClassNames: ['card-header-title', 'priority-low'], text: newTodo.getTitle(),
   });
-  
+
+  const cardContent = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardColumn, arrayClassNames: ['card-content'] });
+  const content = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardContent, arrayClassNames: ['content'] });
+  const dueDateLabel = domManipulation.createHtmlElement({
+    tag: 'label', parentElement: content, arrayClassNames: ['label'], text: 'Due Date',
+  });
+  const dueDateSmall = domManipulation.createHtmlElement({
+    tag: 'small', parentElement: content, text: newTodo.getDueDate(),
+  });
 
   projectTodo.appendTodo(newTodo);
 
