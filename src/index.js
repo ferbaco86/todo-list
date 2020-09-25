@@ -188,7 +188,12 @@ const renderTodos = (todoTitle, todoDueDate, todoDescription, todoPriority, todo
     tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: '<i class="fas fa-trash"></i>',
   });
   deleteButton.addEventListener('click', () => {
-    cardColumn.remove();
+    console.log(project.getTodo());
+
+    const cardIndex = cardColumn.getAttribute('data-index');
+    project.getTodo().splice(cardIndex, 1);
+    console.log(project.getTodo());
+  //  cardColumn.remove();
   });
 };
 
