@@ -104,15 +104,16 @@ const clearTodoContainer = () => {
 // It receives as parameters each one of the todo's properties
 // we get from calling the getters of the todo factory function
 
-const renderTodos = (todoTitle, todoDueDate, todoDescription, todoPriority, todoNotes) => {
+const renderTodos = (todoTitle, todoDueDate, todoDescription, todoPriority, todoNotes, project, todo) => {
   // Here we get the DIV acting as a container for the cards to be created
   const cardContainer = document.querySelector('.cards-container');
-
+  const toDoArray = project.getTodo();
+  const toDoIndex = toDoArray.indexOf(todo);
   // Here we create each HTML element that's going to be composing a single todo-card:
 
   // First the card itself
   const cardColumn = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardContainer, arrayClassNames: ['card', 'column', 'is-3'] });
-
+  cardColumn.setAttribute('data-index', toDoIndex);
   // Then the card Header and the card's title that's inside this header
   const cardHeader = domManipulation.createHtmlElement({ tag: 'header', parentElement: cardColumn, arrayClassNames: ['card-header'] });
   const cardTitle = domManipulation.createHtmlElement({
@@ -266,7 +267,7 @@ projectContainer.addEventListener('click', (e) => {
       const priority = todo.getPriority();
       const notes = todo.getNotes();
 
-      renderTodos(title, dueDate, description, priority, notes);
+      renderTodos(title, dueDate, description, priority, notes, currentProject, todo);
     });
 
     // And finally here we add the outline to the button that's being clicked
@@ -310,11 +311,11 @@ btnAddTodo.addEventListener('click', () => {
   // Here we create a new To-Do using the factory function todo,
   // and passing the values obtained from the input as paramaters
   const newTodo = todo(todoTitle, todoDescription, todoDueDate, todoPriority, todoNotes);
-
+  projectTodo.appendTodo(newTodo);
   // And we render the recently created to-do in an card in the browser
   renderTodos(newTodo.getTitle(), newTodo.getDueDate(),
-    newTodo.getDescription(), newTodo.getPriority(), newTodo.getNotes());
+    newTodo.getDescription(), newTodo.getPriority(), newTodo.getNotes(), projectTodo, newTodo);
 
   // Finally we append the created to-do to the current project
-  projectTodo.appendTodo(newTodo);
+
 });
