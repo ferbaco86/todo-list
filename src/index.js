@@ -142,6 +142,7 @@ const renderTodos = (todoTitle, todoDueDate, todoDescription, todoPriority, todo
   // First the containers of the content
   const cardContent = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardColumn, arrayClassNames: ['card-content'] });
   const content = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardContent, arrayClassNames: ['content'] });
+  const detailsContent = domManipulation.createHtmlElement({ tag: 'div', parentElement: content, arrayClassNames: ['is-hidden'] });
 
   // Then a label and a the info for each of the properties of the to-do's
 
@@ -155,27 +156,29 @@ const renderTodos = (todoTitle, todoDueDate, todoDescription, todoPriority, todo
 
   // The Description label and info
   domManipulation.createHtmlElement({
-    tag: 'label', parentElement: content, arrayClassNames: ['label'], text: 'Description',
+    tag: 'label', parentElement: detailsContent, arrayClassNames: ['label'], text: 'Description',
   });
   domManipulation.createHtmlElement({
-    tag: 'small', parentElement: content, text: todoDescription,
+    tag: 'small', parentElement: detailsContent, text: todoDescription,
   });
 
   // And the Notes label and info
   domManipulation.createHtmlElement({
-    tag: 'label', parentElement: content, arrayClassNames: ['label'], text: 'Notes',
+    tag: 'label', parentElement: detailsContent, arrayClassNames: ['label'], text: 'Notes',
   });
   domManipulation.createHtmlElement({
-    tag: 'small', parentElement: content, text: todoNotes,
+    tag: 'small', parentElement: detailsContent, text: todoNotes,
   });
 
   // And finally we create the card footer with an HTML element(footer item)
   // for each action we can perform on the To-Do's
   const cardFooter = domManipulation.createHtmlElement({ tag: 'footer', parentElement: cardColumn, arrayClassNames: ['card-footer'] });
-  domManipulation.createHtmlElement({
+  const details = domManipulation.createHtmlElement({
     tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: 'Details',
   });
-
+  details.addEventListener('click', () => {
+    detailsContent.classList.toggle('is-hidden');
+  });
   domManipulation.createHtmlElement({
     tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: 'Edit',
   });
