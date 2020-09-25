@@ -12,7 +12,7 @@ const projectList = {
 
 const project = (title, id) => {
   const todoArr = [];
-  const todosList = {};
+  // const todosList = {};
   const getTitle = () => title;
   const getId = () => id;
 
@@ -24,11 +24,11 @@ const project = (title, id) => {
     id = newId;
   };
 
-  const getTodo = () => todosList;
+  const getTodo = () => todoArr;
 
   const appendTodo = (todo) => {
     todoArr.push(todo);
-    todosList[id] = todoArr;
+    // todosList[id] = todoArr;
   };
 
   return {
@@ -77,12 +77,18 @@ const todo = (title, description, dueDate, priority, notes) => {
   };
 };
 
-// const newProject = project('', '');
-const newTodo = todo('', '', '', '', '');
-
 const btnAddProject = document.getElementById('btn-add-project');
+const btnShowForm = document.getElementById('btn-show-form');
 const btnAddTodo = document.getElementById('btn-add-todo');
 const projectContainer = document.getElementById('project-container');
+
+const clearTodoContainer = () => {
+  const todoSection = document.getElementById('todo-section');
+  const cardsContainer = document.querySelector('.cards-container');
+  cardsContainer.remove();
+
+  domManipulation.createHtmlElement({ tag: 'div', parentElement: todoSection, arrayClassNames: ['cards-container'] });
+};
 
 btnAddProject.addEventListener('click', () => {
   const projectTitleInput = document.getElementById('project-title').value;
@@ -105,13 +111,56 @@ btnAddProject.addEventListener('click', () => {
   btnProject.setAttribute('id', counter);
   projectList.currentProjectId = counter;
   btnProject.classList.add('active');
+  clearTodoContainer();
   counter += 1;
 });
 
+const renderTodos = (todoTitle, todoDueDate) => {
+  const cardContainer = document.querySelector('.cards-container');
+  const cardColumn = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardContainer, arrayClassNames: ['card', 'column', 'is-3'] });
+  const cardHeader = domManipulation.createHtmlElement({ tag: 'header', parentElement: cardColumn, arrayClassNames: ['card-header'] });
+  const cardTitle = domManipulation.createHtmlElement({
+    tag: 'h5', parentElement: cardHeader, arrayClassNames: ['card-header-title', 'priority-low'], text: todoTitle,
+  });
+
+  const cardContent = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardColumn, arrayClassNames: ['card-content'] });
+  const content = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardContent, arrayClassNames: ['content'] });
+  const dueDateLabel = domManipulation.createHtmlElement({
+    tag: 'label', parentElement: content, arrayClassNames: ['label'], text: 'Due Date',
+  });
+  const dueDateSmall = domManipulation.createHtmlElement({
+    tag: 'small', parentElement: content, text: todoDueDate,
+  });
+
+  const cardFooter = domManipulation.createHtmlElement({ tag: 'footer', parentElement: cardColumn, arrayClassNames: ['card-footer'] });
+  domManipulation.createHtmlElement({
+    tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: 'Details',
+  });
+
+  domManipulation.createHtmlElement({
+    tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: 'Edit',
+  });
+
+  domManipulation.createHtmlElement({
+    tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: 'Delete',
+  });
+};
+
 projectContainer.addEventListener('click', (e) => {
   const selTarget = e.target;
+
   if (selTarget.nodeName === 'BUTTON') {
     projectList.currentProjectId = selTarget.getAttribute('id');
+    const currentProject = projectList.getCurrent();
+    const currentTodos = currentProject.getTodo();
+
+    clearTodoContainer();
+    currentTodos.forEach(todo => {
+      const title = todo.getTitle();
+      const dueDate = todo.getDueDate();
+
+      renderTodos(title, dueDate);
+    });
     const buttonList = document.querySelectorAll('.project-btn');
     buttonList.forEach((button) => {
       if (button === selTarget && !button.classList.contains('active')) {
@@ -119,6 +168,17 @@ projectContainer.addEventListener('click', (e) => {
       }
       return button.classList.remove('active');
     });
+  }
+});
+
+btnShowForm.addEventListener('click', (e) => {
+  const btnTarget = e.target;
+  const form = document.querySelector('.form');
+  form.classList.toggle('is-hidden');
+  if (btnTarget.innerHTML === "Click Here to add To-Do's") {
+    btnTarget.innerHTML = 'Hide Form';
+  } else {
+    btnTarget.innerHTML = "Click Here to add To-Do's";
   }
 });
 
@@ -130,46 +190,9 @@ btnAddTodo.addEventListener('click', () => {
   const todoPriority = document.getElementById('priority').value;
   const todoNotes = document.getElementById('to-do-notes').value;
 
-  // let newTodo = todoList(todoTitle, todoDescription, todoDueDate, todoPriority, todoNotes);
-  newTodo.setTitle(todoTitle);
-  newTodo.setDescription(todoDescription);
-  newTodo.setDueDate(todoDueDate);
-  newTodo.setPriority(todoPriority);
-  newTodo.setNotes(todoNotes);
+  const newTodo = todo(todoTitle, todoDescription, todoDueDate, todoPriority, todoNotes);
 
-  const cardContainer = document.querySelector('.cards-container');
-  const cardColumn = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardContainer, arrayClassNames: ['card', 'column', 'is-3'] });
-  const cardHeader = domManipulation.createHtmlElement({ tag: 'header', parentElement: cardColumn, arrayClassNames: ['card-header'] });
-  const cardTitle = domManipulation.createHtmlElement({
-    tag: 'h5', parentElement: cardHeader, arrayClassNames: ['card-header-title', 'priority-low'], text: newTodo.getTitle(),
-  });
-
-  const cardContent = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardColumn, arrayClassNames: ['card-content'] });
-  const content = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardContent, arrayClassNames: ['content'] });
-  const dueDateLabel = domManipulation.createHtmlElement({
-    tag: 'label', parentElement: content, arrayClassNames: ['label'], text: 'Due Date',
-  });
-  const dueDateSmall = domManipulation.createHtmlElement({
-    tag: 'small', parentElement: content, text: newTodo.getDueDate(),
-  });
-
-  const cardFooter = domManipulation.createHtmlElement({ tag: 'footer', parentElement: cardColumn, arrayClassNames: ['card-footer'] });
-   domManipulation.createHtmlElement({
-    tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: 'Details'
-  });
-
-  domManipulation.createHtmlElement({
-    tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: 'Edit'
-  });
-
-  domManipulation.createHtmlElement({
-    tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: 'Delete'
-  });
+  renderTodos(newTodo.getTitle(), newTodo.getDueDate());
 
   projectTodo.appendTodo(newTodo);
-
-  // console.log(projectTodo.getTitle());
-  // console.log(projectTodo.getTodo());
-  console.log(cardContainer);
-  // console.log(projectList[0].getTodo());
 });

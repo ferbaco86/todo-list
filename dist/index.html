@@ -24,12 +24,12 @@
         </div>
       </div>
     </aside>
-    <section class="column is-9 has-text-centered section">
+    <section class="column is-9 has-text-centered section" id="todo-section">
       <h2 class="title is-2">To-Do's</h2>
       <div class="field">
-        <button class="button is-primary" id="btn-show-form" type="button">Click here to add a new To-Do</button>
+        <button class="button is-primary" id="btn-show-form" type="button">Click Here to add To-Do's</button>
       </div>
-      <form action="" class="form column is-4 container">
+      <form class="form column is-4 container is-hidden">
         <div class="field">
           <p class="control">
             <label for="to-do-title" class="label">Title</label>
@@ -39,7 +39,7 @@
         <div class="field">
           <p class="control">
             <label for="to-do-description" class="label">Description</label>
-            <textarea class="textarea" id="to-do-description" cols="20" rows="5"></textarea>
+            <textarea class="textarea" id="to-do-description" cols="20" rows="2"></textarea>
           </p>
         </div>
         <div class="field">
@@ -57,7 +57,7 @@
         <div class="field">
           <p class="control">
             <label for="to-do-notes" class="label">Notes</label>
-            <textarea class="textarea" id="to-do-notes" cols="20" rows="5"></textarea>
+            <textarea class="textarea" id="to-do-notes" cols="20" rows="2"></textarea>
           </p>
         </div>
         <div class="field">
@@ -66,62 +66,7 @@
           </p>
         </div>
       </form>
-      <div class="cards-container">
-        <div class="card column is-3">
-          <header class="card-header">
-            <h5 class="card-header-title priority-low">
-              To-Do Title
-            </h5>
-          </header>
-          <div class="card-content">
-            <div class="content">
-              <label class="label">Due Date</label>
-              <small>11:09 PM - 1 Jan 2016</small>
-            </div>
-          </div>
-          <footer class="card-footer">
-            <a class="card-footer-item">Details</a>
-            <a class="card-footer-item">Edit</a>
-            <a class="card-footer-item">Delete</a>
-          </footer>
-        </div>
-        <div class="card column is-3">
-          <header class="card-header">
-            <h5 class="card-header-title priority-mid">
-              To-Do Title
-            </h5>
-          </header>
-          <div class="card-content">
-            <div class="content">
-              <label class="label">Due Date</label>
-              <small>11:09 PM - 1 Jan 2016</small>
-            </div>
-          </div>
-          <footer class="card-footer">
-            <a class="card-footer-item">Details</a>
-            <a class="card-footer-item">Edit</a>
-            <a class="card-footer-item">Delete</a>
-          </footer>
-        </div>
-        <div class="card column is-3">
-          <header class="card-header">
-            <h5 class="card-header-title priority-high">
-              To-Do Title
-            </h5>
-          </header>
-          <div class="card-content">
-            <div class="content">
-              <label class="label">Due Date</label>
-              <small>11:09 PM - 1 Jan 2016</small>
-            </div>
-          </div>
-          <footer class="card-footer">
-            <a class="card-footer-item">Details</a>
-            <a class="card-footer-item">Edit</a>
-            <a class="card-footer-item">Delete</a>
-          </footer>
-        </div>
-      </div>
+      <div class="cards-container"></div>
     </section>
   </main>
   <script src="main.js"></script>
