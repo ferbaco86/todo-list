@@ -184,8 +184,11 @@ const renderTodos = (todoTitle, todoDueDate, todoDescription, todoPriority, todo
     tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: '<i class="fas fa-edit"></i>',
   });
 
-  domManipulation.createHtmlElement({
+  const deleteButton = domManipulation.createHtmlElement({
     tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: '<i class="fas fa-trash"></i>',
+  });
+  deleteButton.addEventListener('click', () => {
+    cardColumn.remove();
   });
 };
 
