@@ -54,3 +54,12 @@ section {
 .active {
   outline: 6px solid  #ffadad !important;
 }
+
+.card-footer-item {
+  cursor: pointer;
+
+}
+
+.card-footer-item:hover {
+  color: #BDB2FF;
+}
