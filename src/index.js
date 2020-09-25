@@ -174,17 +174,17 @@ const renderTodos = (todoTitle, todoDueDate, todoDescription, todoPriority, todo
   // for each action we can perform on the To-Do's
   const cardFooter = domManipulation.createHtmlElement({ tag: 'footer', parentElement: cardColumn, arrayClassNames: ['card-footer'] });
   const details = domManipulation.createHtmlElement({
-    tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: 'Details',
+    tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: '<i class="fas fa-info-circle"></i>',
   });
   details.addEventListener('click', () => {
     detailsContent.classList.toggle('is-hidden');
   });
   domManipulation.createHtmlElement({
-    tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: 'Edit',
+    tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: '<i class="fas fa-edit"></i>',
   });
 
   domManipulation.createHtmlElement({
-    tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: 'Delete',
+    tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: '<i class="fas fa-trash"></i>',
   });
 };
 
