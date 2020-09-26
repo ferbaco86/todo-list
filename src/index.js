@@ -174,26 +174,32 @@ const renderTodos = (todoTitle, todoDueDate, todoDescription, todoPriority, todo
   // And finally we create the card footer with an HTML element(footer item)
   // for each action we can perform on the To-Do's
   const cardFooter = domManipulation.createHtmlElement({ tag: 'footer', parentElement: cardColumn, arrayClassNames: ['card-footer'] });
-  const details = domManipulation.createHtmlElement({
+  const detailsButton = domManipulation.createHtmlElement({
     tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: '<i class="fas fa-info-circle"></i>',
   });
-  details.addEventListener('click', () => {
+  detailsButton.addEventListener('click', () => {
     detailsContent.classList.toggle('is-hidden');
   });
-  domManipulation.createHtmlElement({
+  const editButton = domManipulation.createHtmlElement({
     tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: '<i class="fas fa-edit"></i>',
   });
+  editButton.addEventListener('click', () => {
+    
+  });
+
 
   const deleteButton = domManipulation.createHtmlElement({
     tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: '<i class="fas fa-trash"></i>',
   });
   deleteButton.addEventListener('click', () => {
-    console.log(project.getTodo());
+    const arrayToDos = project.getTodo();
+    const indexToDo = arrayToDos.indexOf(todo);
+    cardColumn.setAttribute('data-index', indexToDo);
 
     const cardIndex = cardColumn.getAttribute('data-index');
     project.getTodo().splice(cardIndex, 1);
-    console.log(project.getTodo());
-  //  cardColumn.remove();
+
+    cardColumn.remove();
   });
 };
 
@@ -325,5 +331,4 @@ btnAddTodo.addEventListener('click', () => {
     newTodo.getDescription(), newTodo.getPriority(), newTodo.getNotes(), projectTodo, newTodo);
 
   // Finally we append the created to-do to the current project
-
 });
