@@ -109,6 +109,8 @@ const renderTodos = (todoTitle, todoDueDate, todoDescription, todoPriority, todo
   const cardContainer = document.querySelector('.cards-container');
   const toDoArray = project.getTodo();
   const toDoIndex = toDoArray.indexOf(todo);
+
+  let newToDoPriority = todoPriority;
   // Here we create each HTML element that's going to be composing a single todo-card:
 
   // First the card itself
@@ -121,7 +123,7 @@ const renderTodos = (todoTitle, todoDueDate, todoDescription, todoPriority, todo
   });
 
   // Switch statement to establish the color of the card's title header according to it's priority
-  switch (todoPriority) {
+  switch (newToDoPriority) {
     case 'High':
       cardTitle.classList.add('priority-high');
       break;
@@ -151,7 +153,7 @@ const renderTodos = (todoTitle, todoDueDate, todoDescription, todoPriority, todo
   domManipulation.createHtmlElement({
     tag: 'label', parentElement: content, arrayClassNames: ['label'], text: 'Due Date',
   });
-  domManipulation.createHtmlElement({
+  const toDoDueDateText = domManipulation.createHtmlElement({
     tag: 'small', parentElement: content, text: todoDueDate,
   });
 
@@ -159,7 +161,7 @@ const renderTodos = (todoTitle, todoDueDate, todoDescription, todoPriority, todo
   domManipulation.createHtmlElement({
     tag: 'label', parentElement: detailsContent, arrayClassNames: ['label'], text: 'Description',
   });
-  domManipulation.createHtmlElement({
+  const toDoDescriptionText = domManipulation.createHtmlElement({
     tag: 'small', parentElement: detailsContent, text: todoDescription,
   });
 
@@ -167,8 +169,82 @@ const renderTodos = (todoTitle, todoDueDate, todoDescription, todoPriority, todo
   domManipulation.createHtmlElement({
     tag: 'label', parentElement: detailsContent, arrayClassNames: ['label'], text: 'Notes',
   });
-  domManipulation.createHtmlElement({
+  const todoNotesText = domManipulation.createHtmlElement({
     tag: 'small', parentElement: detailsContent, text: todoNotes,
+  });
+
+  // Creation of the edit form
+  const editForm = domManipulation.createHtmlElement({ tag: 'form', parentElement: cardColumn, arrayClassNames: ['form', 'is-hidden'] });
+  const editLabelTitle = domManipulation.createHtmlElement({
+    tag: 'label', parentElement: editForm, arrayClassNames: ['label'], text: ' New Title',
+  });
+  const editInputTitle = domManipulation.createHtmlElement({ tag: 'input', parentElement: editForm, arrayClassNames: ['input', 'my-10'] });
+  editInputTitle.setAttribute('type', 'text');
+  const editLabelPriority = domManipulation.createHtmlElement({
+    tag: 'label', parentElement: editForm, arrayClassNames: ['label'], text: ' New Priority',
+  });
+  const editInputPriority = domManipulation.createHtmlElement({ tag: 'input', parentElement: editForm, arrayClassNames: ['input', 'my-10'] });
+  editInputPriority.setAttribute('type', 'text');
+  const editLabelDueDate = domManipulation.createHtmlElement({
+    tag: 'label', parentElement: editForm, arrayClassNames: ['label'], text: ' New Due Date',
+  });
+  const editInputDueDate = domManipulation.createHtmlElement({ tag: 'input', parentElement: editForm, arrayClassNames: ['input', 'my-10'] });
+  editInputDueDate.setAttribute('type', 'date');
+  const editLabelDescription = domManipulation.createHtmlElement({
+    tag: 'label', parentElement: editForm, arrayClassNames: ['label'], text: ' New Description',
+  });
+  const editInputDescription = domManipulation.createHtmlElement({ tag: 'textarea', parentElement: editForm, arrayClassNames: ['textarea', 'my-10'] });
+  editInputDescription.setAttribute('cols', '10');
+  editInputDescription.setAttribute('rows', '1');
+
+  const editLabelNotes = domManipulation.createHtmlElement({
+    tag: 'label', parentElement: editForm, arrayClassNames: ['label'], text: ' New Notes',
+  });
+  const editInputNotes = domManipulation.createHtmlElement({ tag: 'textarea', parentElement: editForm, arrayClassNames: ['textarea', 'my-10'] });
+  editInputNotes.setAttribute('cols', '10');
+  editInputNotes.setAttribute('rows', '1');
+
+  const updateBtn = domManipulation.createHtmlElement({
+    tag: 'button', parentElement: editForm, arrayClassNames: ['button', 'is-primary', 'my-10'], text: 'Update',
+  });
+  updateBtn.setAttribute('type', 'button');
+  updateBtn.addEventListener('click', () => {
+    const arrayToDos = project.getTodo();
+    const indexToDo = arrayToDos.indexOf(todo);
+    const updatedTodo = toDoArray[indexToDo];
+
+    updatedTodo.setTitle(editInputTitle.value);
+    updatedTodo.setPriority(editInputPriority.value);
+    updatedTodo.setDueDate(editInputDueDate.value);
+    updatedTodo.setDescription(editInputDescription.value);
+    updatedTodo.setNotes(editInputNotes.value);
+
+    cardTitle.innerHTML = updatedTodo.getTitle();
+    toDoDueDateText.innerHTML = updatedTodo.getDueDate();
+    toDoDescriptionText.innerHTML = updatedTodo.getDescription();
+    todoNotesText.innerHTML = updatedTodo.getNotes();
+    newToDoPriority = updatedTodo.getPriority();
+
+    switch (newToDoPriority) {
+      case 'High':
+        cardTitle.classList.add('priority-high');
+        break;
+
+      case 'Mid':
+        cardTitle.classList.add('priority-mid');
+        break;
+
+      case 'Low':
+        cardTitle.classList.add('priority-low');
+        break;
+
+      default:
+        break;
+    }
+
+    cardContent.classList.toggle('is-hidden');
+    editForm.classList.toggle('is-hidden');
+    cardHeader.classList.toggle('is-hidden');
   });
 
   // And finally we create the card footer with an HTML element(footer item)
@@ -184,7 +260,9 @@ const renderTodos = (todoTitle, todoDueDate, todoDescription, todoPriority, todo
     tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: '<i class="fas fa-edit"></i>',
   });
   editButton.addEventListener('click', () => {
-    
+    cardContent.classList.toggle('is-hidden');
+    editForm.classList.toggle('is-hidden');
+    cardHeader.classList.toggle('is-hidden');
   });
 
 
@@ -194,10 +272,7 @@ const renderTodos = (todoTitle, todoDueDate, todoDescription, todoPriority, todo
   deleteButton.addEventListener('click', () => {
     const arrayToDos = project.getTodo();
     const indexToDo = arrayToDos.indexOf(todo);
-    cardColumn.setAttribute('data-index', indexToDo);
-
-    const cardIndex = cardColumn.getAttribute('data-index');
-    project.getTodo().splice(cardIndex, 1);
+    arrayToDos.splice(indexToDo, 1);
 
     cardColumn.remove();
   });

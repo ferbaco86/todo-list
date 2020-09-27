@@ -6,6 +6,10 @@ section {
   background-color: #a0c4ff;
 }
 
+.my-10 {
+  margin: 10px 0;
+}
+
 .form {
   background-color: #fffffc;
 }
