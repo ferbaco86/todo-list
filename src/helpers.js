@@ -1,4 +1,3 @@
-
 const domManipulation = (() => {
   const addClasses = (element, arrayClassNames) => {
     arrayClassNames.forEach(className => {

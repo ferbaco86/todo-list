@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://kit.fontawesome.com/17f821a36f.js" crossorigin="anonymous"></script>
   <link href="./style/main.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/cosmo/bulmaswatch.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/default/bulmaswatch.min.css">
   <title>To-Do List</title>
 </head>
 <body>
@@ -52,7 +52,13 @@
         <div class="field">
           <p class="control">
             <label for="priority" class="label">Priority</label>
-            <input type="text" class="input" id="priority" />
+            <span class="select">
+              <select id="priority">
+                <option>Low</option>
+                <option>Mid</option>
+                <option>High</option>
+              </select>
+            </span>
           </p>
         </div>
         <div class="field">
