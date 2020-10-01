@@ -12,10 +12,25 @@ const btnAddTodo = document.getElementById('btn-add-todo');
 const projectContainer = document.getElementById('project-container');
 
 // Check if localStorage has information stored and render it on the page if it's true.
-const validation = (inputTitle) => {
+const projectValidation = (inputTitle) => {
   const alertMessageDiv = document.getElementById('alertMessage');
   let valid;
   if (inputTitle.validity.valueMissing) {
+    alertMessageDiv.classList.remove('is-hidden');
+    valid = false;
+  } else {
+    alertMessageDiv.classList.add('is-hidden');
+    valid = true;
+  }
+  return valid;
+};
+
+const todoValidation = (inputTitle, inputDescription, inputDueDate, inputPriority, inputNotes) => {
+  const alertMessageDiv = document.getElementById('alertMessage');
+  let valid;
+  if (inputTitle.validity.valueMissing
+    || inputDescription.validity.valueMissing || inputDueDate.validity.valueMissing || 
+    inputNotes.validity.valueMissing || inputNotes.validity.valueMissing) {
     alertMessageDiv.classList.remove('is-hidden');
     valid = false;
   } else {
@@ -60,7 +75,7 @@ if (projects.projectList.list.length === 0) {
 // Listener for the click event of the button we use to create a project
 btnAddProject.addEventListener('click', () => {
   const titleInput = document.getElementById('project-title');
-  if (validation(titleInput) === true) {
+  if (projectValidation(titleInput) === true) {
     const projectTitleInput = document.getElementById('project-title').value;
     projects.createProject(projectTitleInput, counter);
     renders.renderProjectsBtns(projectTitleInput, counter,
