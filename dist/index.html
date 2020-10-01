@@ -12,9 +12,14 @@
   <main class="columns">
     <aside class="column is-3 has-text-centered section">
       <h2 class="title is-2">Projects</h2>
+      <div class="field">
+        <div id ="alertMessage" class="notification is-danger">
+          <h5 class="title is-5 has-text-centered">All fields required!</h5>
+        </div>
+      </div>
       <div class="field has-addons">
         <p class="control">
-          <input class="input" placeholder="Enter Title here..." type="text" name="project-title" id="project-title">
+          <input class="input" placeholder="Enter Title here..." type="text" name="project-title" id="project-title" required>
         </p>
         <p class="control">
           <button class="button is-info" id="btn-add-project" type="button">Add Project</button>
