@@ -13,14 +13,13 @@ const projectContainer = document.getElementById('project-container');
 
 // Check if localStorage has information stored and render it on the page if it's true.
 const validation = (inputTitle) => {
-  //const alertMessageDiv = document.getElementById('alertMessage');
+  const alertMessageDiv = document.getElementById('alertMessage');
   let valid;
   if (inputTitle.validity.valueMissing) {
-    //alertMessageDiv.classList.remove('is-hidden');
-    alert("Missing value type some thing")
+    alertMessageDiv.classList.remove('is-hidden');
     valid = false;
   } else {
-    //alertMessageDiv.classList.add('is-hidden');
+    alertMessageDiv.classList.add('is-hidden');
     valid = true;
   }
   return valid;
@@ -60,8 +59,9 @@ if (projects.projectList.list.length === 0) {
 
 // Listener for the click event of the button we use to create a project
 btnAddProject.addEventListener('click', () => {
-  const projectTitleInput = document.getElementById('project-title').value;
-  if (validation(projectTitleInput) === true) {
+  const titleInput = document.getElementById('project-title');
+  if (validation(titleInput) === true) {
+    const projectTitleInput = document.getElementById('project-title').value;
     projects.createProject(projectTitleInput, counter);
     renders.renderProjectsBtns(projectTitleInput, counter,
     projectContainer, projects.projectList, counter);
