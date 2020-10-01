@@ -29,8 +29,8 @@ const todoValidation = (inputTitle, inputDescription, inputDueDate, inputPriorit
   const alertMessageDiv = document.getElementById('alertMessage');
   let valid;
   if (inputTitle.validity.valueMissing
-    || inputDescription.validity.valueMissing || inputDueDate.validity.valueMissing || 
-    inputNotes.validity.valueMissing || inputNotes.validity.valueMissing) {
+    || inputDescription.validity.valueMissing || inputDueDate.validity.valueMissing
+    || inputNotes.validity.valueMissing || inputNotes.validity.valueMissing) {
     alertMessageDiv.classList.remove('is-hidden');
     valid = false;
   } else {
@@ -79,9 +79,8 @@ btnAddProject.addEventListener('click', () => {
     const projectTitleInput = document.getElementById('project-title').value;
     projects.createProject(projectTitleInput, counter);
     renders.renderProjectsBtns(projectTitleInput, counter,
-    projectContainer, projects.projectList, counter);
+      projectContainer, projects.projectList, counter);
   }
-
 });
 
 
@@ -124,17 +123,24 @@ btnShowForm.addEventListener('click', (e) => {
 // This click event listener acts on the add to-do button in the form
 btnAddTodo.addEventListener('click', () => {
   const projectTodo = projects.projectList.getCurrent();
-
-  const todoTitle = document.getElementById('to-do-title').value;
-  const todoDescription = document.getElementById('to-do-description').value;
-  const todoDueDate = document.getElementById('to-do-date').value;
-  const todoPriority = document.getElementById('priority').value;
-  const todoNotes = document.getElementById('to-do-notes').value;
-
-  const newTodo = todos.todo(todoTitle, todoDescription, todoDueDate, todoPriority, todoNotes);
-  projectTodo.appendTodo(newTodo);
-  projects.projectList[projects.projectList.currentProjectId].arrayOfToDos.push(newTodo.getAll());
-  renders.renderTodos(newTodo.getTitle(), newTodo.getDueDate(),
-    newTodo.getDescription(), newTodo.getPriority(), newTodo.getNotes(), projectTodo, newTodo);
-  localStorage.setItem('projectList', JSON.stringify(projects.projectList));
+  const todoTitleInput = document.getElementById('to-do-title');
+  const todoDescriptionInput = document.getElementById('to-do-description');
+  const todoDueDateInput = document.getElementById('to-do-date');
+  const todoPriorityInput = document.getElementById('priority');
+  const todoNotesInput = document.getElementById('to-do-notes');
+  if (todoValidation(todoTitleInput, todoDescriptionInput,
+    todoDueDateInput, todoPriorityInput, todoNotesInput) === true) {
+    const todoTitle = document.getElementById('to-do-title').value;
+    console.log("Here we go")
+    const todoDescription = document.getElementById('to-do-description').value;
+    const todoDueDate = document.getElementById('to-do-date').value;
+    const todoPriority = document.getElementById('priority').value;
+    const todoNotes = document.getElementById('to-do-notes').value;
+    const newTodo = todos.todo(todoTitle, todoDescription, todoDueDate, todoPriority, todoNotes);
+    projectTodo.appendTodo(newTodo);
+    projects.projectList[projects.projectList.currentProjectId].arrayOfToDos.push(newTodo.getAll());
+    renders.renderTodos(newTodo.getTitle(), newTodo.getDueDate(),
+      newTodo.getDescription(), newTodo.getPriority(), newTodo.getNotes(), projectTodo, newTodo);
+    localStorage.setItem('projectList', JSON.stringify(projects.projectList));
+  }
 });
