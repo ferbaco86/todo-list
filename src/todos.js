@@ -69,10 +69,31 @@ const todos = (() => {
         break;
     }
   };
+
+  const todoValidation = (inputTitle, inputDescription, inputDueDate, inputNotes, event) => {
+    let alertMessageDiv;
+    if (event.currentTarget.getAttribute('id') === 'btn-add-todo') {
+      alertMessageDiv = document.getElementById('todoAlertMessage');
+    } else {
+      alertMessageDiv = document.getElementById('updateAlert');
+    }
+    let valid;
+    if (inputTitle.validity.valueMissing
+      || inputDescription.validity.valueMissing || inputDueDate.validity.valueMissing
+      || inputNotes.validity.valueMissing || inputNotes.validity.valueMissing) {
+      alertMessageDiv.classList.remove('is-hidden');
+      valid = false;
+    } else {
+      alertMessageDiv.classList.add('is-hidden');
+      valid = true;
+    }
+    return valid;
+  };
   return {
     todo,
     clearTodoContainer,
     setPriorityColor,
+    todoValidation,
   };
 })();
 

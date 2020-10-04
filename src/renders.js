@@ -3,30 +3,56 @@ import todos from './todos';
 import projects from './projects';
 
 const renders = (() => {
-  let cardHeader;
-  let cardTitle;
-  let cardColumn;
-  let cardContent;
-  let content;
-  let detailsContent;
-  let toDoArray;
-  let newToDoPriority;
-  let editForm;
-  const cardContainer = document.querySelector('.cards-container');
+  const renderTodos = (todoTitle, todoDueDate, todoDescription,
+    todoPriority, todoNotes, project, todo) => {
+    const cardContainer = document.querySelector('.cards-container');
+    const toDoArray = project.getTodo();
+    const toDoIndex = toDoArray.indexOf(todo);
 
-  const createCardHeader = (todoTitle, toDoIndex) => {
-    cardColumn = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardContainer, arrayClassNames: ['card', 'column', 'is-3'] });
+    let newToDoPriority = todoPriority;
+
+    const cardColumn = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardContainer, arrayClassNames: ['card', 'column', 'is-3'] });
     cardColumn.setAttribute('data-index', toDoIndex);
-    cardHeader = domManipulation.createHtmlElement({ tag: 'header', parentElement: cardColumn, arrayClassNames: ['card-header'] });
-    cardTitle = domManipulation.createHtmlElement({
+
+    // Card Header and the card's title that's inside this header
+    const cardHeader = domManipulation.createHtmlElement({ tag: 'header', parentElement: cardColumn, arrayClassNames: ['card-header'] });
+    const cardTitle = domManipulation.createHtmlElement({
       tag: 'h5', parentElement: cardHeader, arrayClassNames: ['card-header-title'], text: todoTitle,
     });
-  };
 
-  const createEditForm = (project, todo, toDoDueDateText, toDoDescriptionText,
-    todoNotesText) => {
+    todos.setPriorityColor(newToDoPriority, cardTitle);
+
+    // Mid section of the card with the content:
+
+    const cardContent = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardColumn, arrayClassNames: ['card-content'] });
+    const content = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardContent, arrayClassNames: ['content'] });
+    const detailsContent = domManipulation.createHtmlElement({ tag: 'div', parentElement: content, arrayClassNames: ['is-hidden'] });
+
+
+    domManipulation.createHtmlElement({
+      tag: 'label', parentElement: content, arrayClassNames: ['label'], text: 'Due Date',
+    });
+    const toDoDueDateText = domManipulation.createHtmlElement({
+      tag: 'small', parentElement: content, text: todoDueDate,
+    });
+
+
+    domManipulation.createHtmlElement({
+      tag: 'label', parentElement: detailsContent, arrayClassNames: ['label'], text: 'Description',
+    });
+    const toDoDescriptionText = domManipulation.createHtmlElement({
+      tag: 'small', parentElement: detailsContent, text: todoDescription,
+    });
+
+    domManipulation.createHtmlElement({
+      tag: 'label', parentElement: detailsContent, arrayClassNames: ['label'], text: 'Notes',
+    });
+    const todoNotesText = domManipulation.createHtmlElement({
+      tag: 'small', parentElement: detailsContent, text: todoNotes,
+    });
+
     // Creation of the edit form
-    editForm = domManipulation.createHtmlElement({ tag: 'form', parentElement: cardColumn, arrayClassNames: ['form', 'is-hidden'] });
+    const editForm = domManipulation.createHtmlElement({ tag: 'form', parentElement: cardColumn, arrayClassNames: ['form', 'is-hidden'] });
     domManipulation.createHtmlElement({
       tag: 'label', parentElement: editForm, arrayClassNames: ['label'], text: ' New Title',
     });
@@ -40,7 +66,6 @@ const renders = (() => {
     domManipulation.createHtmlElement({ tag: 'option', parentElement: editInputPriority, text: 'Low' });
     domManipulation.createHtmlElement({ tag: 'option', parentElement: editInputPriority, text: 'Mid' });
     domManipulation.createHtmlElement({ tag: 'option', parentElement: editInputPriority, text: 'High' });
-
     domManipulation.createHtmlElement({
       tag: 'label', parentElement: editForm, arrayClassNames: ['label'], text: ' New Due Date',
     });
@@ -56,82 +81,69 @@ const renders = (() => {
     domManipulation.createHtmlElement({
       tag: 'label', parentElement: editForm, arrayClassNames: ['label'], text: ' New Notes',
     });
-
     const editInputNotes = domManipulation.createHtmlElement({ tag: 'textarea', parentElement: editForm, arrayClassNames: ['textarea', 'my-10'] });
     editInputNotes.setAttribute('cols', '10');
     editInputNotes.setAttribute('rows', '1');
 
+
+    const field = domManipulation.createHtmlElement({ tag: 'div', parentElement: editForm, arrayClassNames: ['field'] });
+    const notification = domManipulation.createHtmlElement({
+      tag: 'div',
+      parentElement: field,
+      arrayClassNames: ['notification', 'is-danger', 'is-hidden'],
+      newId: 'updateAlert',
+    });
+    domManipulation.createHtmlElement({
+      tag: 'h5',
+      parentElement: notification,
+      arrayClassNames: ['title', 'is-5', 'has-text-centered'],
+      text: 'All fields are required!',
+    });
+
+    domManipulation.setRequired([editInputTitle, editInputDueDate,
+      editInputDescription, editInputNotes]);
     const updateBtn = domManipulation.createHtmlElement({
       tag: 'button', parentElement: editForm, arrayClassNames: ['button', 'is-primary', 'my-10'], text: 'Update',
     });
-
     updateBtn.setAttribute('type', 'button');
-    updateBtn.addEventListener('click', () => {
+    updateBtn.addEventListener('click', (e) => {
       const arrayToDos = project.getTodo();
-      const storageToDos = projects.projectList[projects.projectList.currentProjectId].arrayOfToDos;
       const indexToDo = arrayToDos.indexOf(todo);
       const updatedTodo = toDoArray[indexToDo];
+      const storageToDos = projects.projectList[projects.projectList.currentProjectId].arrayOfToDos;
       const storageTodo = storageToDos[indexToDo];
 
-      updatedTodo.setTitle(editInputTitle.value);
-      updatedTodo.setPriority(editInputPriority.value);
-      updatedTodo.setDueDate(editInputDueDate.value);
-      updatedTodo.setDescription(editInputDescription.value);
-      updatedTodo.setNotes(editInputNotes.value);
+      if (todos.todoValidation(editInputTitle, editInputDescription,
+        editInputDueDate, editInputNotes, e) === true) {
+        updatedTodo.setTitle(editInputTitle.value);
+        updatedTodo.setPriority(editInputPriority.value);
+        updatedTodo.setDueDate(editInputDueDate.value);
+        updatedTodo.setDescription(editInputDescription.value);
+        updatedTodo.setNotes(editInputNotes.value);
 
-      storageTodo[0] = editInputTitle.value;
-      storageTodo[1] = editInputDescription.value;
-      storageTodo[2] = editInputDueDate.value;
-      storageTodo[3] = editInputPriority.value;
-      storageTodo[4] = editInputNotes.value;
+        storageTodo[0] = editInputTitle.value;
+        storageTodo[1] = editInputDescription.value;
+        storageTodo[2] = editInputDueDate.value;
+        storageTodo[3] = editInputPriority.value;
+        storageTodo[4] = editInputNotes.value;
 
+        cardTitle.innerHTML = updatedTodo.getTitle();
+        toDoDueDateText.innerHTML = updatedTodo.getDueDate();
+        toDoDescriptionText.innerHTML = updatedTodo.getDescription();
+        todoNotesText.innerHTML = updatedTodo.getNotes();
+        newToDoPriority = updatedTodo.getPriority();
+        const priorityClass = cardTitle.classList;
 
-      cardTitle.innerHTML = updatedTodo.getTitle();
-      toDoDueDateText.innerHTML = updatedTodo.getDueDate();
-      toDoDescriptionText.innerHTML = updatedTodo.getDescription();
-      todoNotesText.innerHTML = updatedTodo.getNotes();
-      newToDoPriority = updatedTodo.getPriority();
-      const priorityClass = createCardHeader.cardTitle.classList;
+        todos.setPriorityColor(newToDoPriority, cardTitle, priorityClass);
 
-      todos.setPriorityColor(newToDoPriority, cardTitle, priorityClass);
-      cardContent.classList.toggle('is-hidden');
-      editForm.classList.toggle('is-hidden');
-      createCardHeader.cardHeader.classList.toggle('is-hidden');
+        cardContent.classList.toggle('is-hidden');
+        editForm.classList.toggle('is-hidden');
+        cardHeader.classList.toggle('is-hidden');
 
-      localStorage.setItem('projectList', JSON.stringify(projects.projectList));
-    });
-  };
-  const createCardContainer = (todoDueDate, todoDescription, todoNotes, project, todo) => {
-    cardContent = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardColumn, arrayClassNames: ['card-content'] });
-    content = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardContent, arrayClassNames: ['content'] });
-    detailsContent = domManipulation.createHtmlElement({ tag: 'div', parentElement: content, arrayClassNames: ['is-hidden'] });
-
-    domManipulation.createHtmlElement({
-      tag: 'label', parentElement: createCardContainer.content, arrayClassNames: ['label'], text: 'Due Date',
-    });
-    const toDoDueDateText = domManipulation.createHtmlElement({
-      tag: 'small', parentElement: createCardContainer.content, text: todoDueDate,
+        localStorage.setItem('projectList', JSON.stringify(projects.projectList));
+      }
     });
 
-
-    domManipulation.createHtmlElement({
-      tag: 'label', parentElement: detailsContent, arrayClassNames: ['label'], text: 'Description',
-    });
-    const toDoDescriptionText = domManipulation.createHtmlElement({
-      tag: 'small', parentElement: detailsContent, text: todoDescription,
-    });
-
-
-    domManipulation.createHtmlElement({
-      tag: 'label', parentElement: detailsContent, arrayClassNames: ['label'], text: 'Notes',
-    });
-    const todoNotesText = domManipulation.createHtmlElement({
-      tag: 'small', parentElement: detailsContent, text: todoNotes,
-    });
-
-    createEditForm(project, todo, toDoDueDateText, toDoDescriptionText, todoNotesText);
-  };
-  const createCardFooter = (project, todo) => {
     const cardFooter = domManipulation.createHtmlElement({ tag: 'footer', parentElement: cardColumn, arrayClassNames: ['card-footer'] });
     const detailsButton = domManipulation.createHtmlElement({
       tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: '<i class="fas fa-info-circle"></i>',
@@ -154,34 +166,18 @@ const renders = (() => {
     });
     deleteButton.addEventListener('click', () => {
       const arrayToDos = project.getTodo();
-      const storageToDos = projects.projectList[projects.projectList.currentProjectId].arrayOfToDos;
       const indexToDo = arrayToDos.indexOf(todo);
+      const storageToDos = projects.projectList[projects.projectList.currentProjectId].arrayOfToDos;
       arrayToDos.splice(indexToDo, 1);
       storageToDos.splice(indexToDo, 1);
 
       localStorage.setItem('projectList', JSON.stringify(projects.projectList));
 
-
       cardColumn.remove();
     });
   };
 
-  const renderTodos = (todoTitle, todoDueDate, todoDescription,
-    todoPriority, todoNotes, project, todo) => {
-    toDoArray = project.getTodo();
-    const toDoIndex = toDoArray.indexOf(todo);
-    newToDoPriority = todoPriority;
-
-    createCardHeader(todoTitle, toDoIndex);
-
-    todos.setPriorityColor(newToDoPriority, cardTitle);
-
-    createCardContainer(todoDueDate, todoDescription, todoNotes, project, todo);
-
-    createCardFooter(project, todo);
-  };
-
-  const renderProjectsBtns = (projectTitle, projectId, projectContainer, projectList, counter) => {
+  const renderProjectsBtns = (projectTitle, projectId, projectContainer) => {
     const btnProject = domManipulation.createHtmlElement({
       tag: 'button', parentElement: projectContainer, arrayClassNames: ['button', 'project-btn'], text: projectTitle,
     });
@@ -196,11 +192,8 @@ const renders = (() => {
 
     btnProject.setAttribute('id', projectId);
 
-    projectList.currentProjectId = counter;
-
     btnProject.classList.add('active');
     todos.clearTodoContainer();
-    counter += 1;
   };
 
   const retrieveTodos = (currentProject) => {
@@ -217,9 +210,9 @@ const renders = (() => {
     });
   };
   return {
+    renderTodos,
     renderProjectsBtns,
     retrieveTodos,
-    renderTodos,
   };
 })();
 

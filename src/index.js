@@ -3,7 +3,7 @@ import projects from './projects';
 import todos from './todos';
 import './style.css';
 
-const counter = 0;
+let counter = 0;
 
 const btnAddProject = document.getElementById('btn-add-project');
 const btnShowForm = document.getElementById('btn-show-form');
@@ -11,34 +11,7 @@ const btnAddTodo = document.getElementById('btn-add-todo');
 
 const projectContainer = document.getElementById('project-container');
 
-// Check if localStorage has information stored and render it on the page if it's true.
-const projectValidation = (inputTitle) => {
-  const alertMessageDiv = document.getElementById('alertMessage');
-  let valid;
-  if (inputTitle.validity.valueMissing) {
-    alertMessageDiv.classList.remove('is-hidden');
-    valid = false;
-  } else {
-    alertMessageDiv.classList.add('is-hidden');
-    valid = true;
-  }
-  return valid;
-};
-
-const todoValidation = (inputTitle, inputDescription, inputDueDate, inputPriority, inputNotes) => {
-  const alertMessageDiv = document.getElementById('alertMessage');
-  let valid;
-  if (inputTitle.validity.valueMissing
-    || inputDescription.validity.valueMissing || inputDueDate.validity.valueMissing
-    || inputNotes.validity.valueMissing || inputNotes.validity.valueMissing) {
-    alertMessageDiv.classList.remove('is-hidden');
-    valid = false;
-  } else {
-    alertMessageDiv.classList.add('is-hidden');
-    valid = true;
-  }
-  return valid;
-};
+// if there's info on localStorage, load it
 
 if (localStorage.length !== 0) {
   const storedProjects = JSON.parse(localStorage.getItem('projectList'));
@@ -56,30 +29,44 @@ if (localStorage.length !== 0) {
       newProject.appendTodo(newTodo);
     });
     renders.renderProjectsBtns(value.projectTitle, key,
-      projectContainer, projects.projectList, counter);
+      projectContainer);
   });
 
+
+  counter = storedProjects.list.length - 1;
+  projects.projectList.currentProjectId = counter;
+
   renders.retrieveTodos(projects.projectList.getCurrent());
+  counter += 1;
 }
 
 // Check if the there is no project created, create a Default one
 
 if (projects.projectList.list.length === 0) {
   projects.createProject('Default', 0);
-  renders.renderProjectsBtns('Default', 0, projectContainer, projects.projectList, counter);
+  renders.renderProjectsBtns('Default', 0, projectContainer);
+  projects.projectList.currentProjectId = counter;
+  localStorage.setItem('projectList', JSON.stringify(projects.projectList));
+
+  counter += 1;
 }
 
 
 // Click event listeners for each of the buttons in the browser:
 
+
 // Listener for the click event of the button we use to create a project
 btnAddProject.addEventListener('click', () => {
   const titleInput = document.getElementById('project-title');
-  if (projectValidation(titleInput) === true) {
+  if (projects.projectValidation(titleInput) === true) {
     const projectTitleInput = document.getElementById('project-title').value;
     projects.createProject(projectTitleInput, counter);
     renders.renderProjectsBtns(projectTitleInput, counter,
-      projectContainer, projects.projectList, counter);
+      projectContainer);
+    projects.projectList.currentProjectId = counter;
+    localStorage.setItem('projectList', JSON.stringify(projects.projectList));
+
+    counter += 1;
   }
 });
 
@@ -121,17 +108,15 @@ btnShowForm.addEventListener('click', (e) => {
 });
 
 // This click event listener acts on the add to-do button in the form
-btnAddTodo.addEventListener('click', () => {
+btnAddTodo.addEventListener('click', (e) => {
   const projectTodo = projects.projectList.getCurrent();
   const todoTitleInput = document.getElementById('to-do-title');
   const todoDescriptionInput = document.getElementById('to-do-description');
   const todoDueDateInput = document.getElementById('to-do-date');
-  const todoPriorityInput = document.getElementById('priority');
   const todoNotesInput = document.getElementById('to-do-notes');
-  if (todoValidation(todoTitleInput, todoDescriptionInput,
-    todoDueDateInput, todoPriorityInput, todoNotesInput) === true) {
+  if (todos.todoValidation(todoTitleInput, todoDescriptionInput,
+    todoDueDateInput, todoNotesInput, e) === true) {
     const todoTitle = document.getElementById('to-do-title').value;
-    console.log("Here we go")
     const todoDescription = document.getElementById('to-do-description').value;
     const todoDueDate = document.getElementById('to-do-date').value;
     const todoPriority = document.getElementById('priority').value;

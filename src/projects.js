@@ -44,13 +44,27 @@ const projects = (() => {
     };
 
     projectList.list.push(newProject);
-    localStorage.setItem('projectList', JSON.stringify(projectList));
+    // localStorage.setItem('projectList', JSON.stringify(projectList));
+    // console.log(JSON.parse(localStorage.getItem('projectList')));
+  };
+
+  const projectValidation = (inputTitle) => {
+    const alertMessageDiv = document.getElementById('alertMessage');
+    let valid;
+    if (inputTitle.validity.valueMissing) {
+      alertMessageDiv.classList.remove('is-hidden');
+      valid = false;
+    } else {
+      alertMessageDiv.classList.add('is-hidden');
+      valid = true;
+    }
+    return valid;
   };
   return {
     projectList,
     project,
     createProject,
-
+    projectValidation,
   };
 })();
 

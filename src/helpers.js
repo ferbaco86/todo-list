@@ -8,17 +8,10 @@ const domManipulation = (() => {
   const addId = (element, newId) => {
     element.id = newId;
   };
-
-  const createImage = (source, alt, arrayClassNames = []) => {
-    const img = new Image();
-    img.src = source;
-    img.alt = alt;
-
-    if (arrayClassNames !== []) {
-      addClasses(img, arrayClassNames);
-    }
-
-    return img;
+  const setRequired = (arrayInputs) => {
+    arrayInputs.forEach((input) => {
+      input.setAttribute('required', '');
+    });
   };
 
   const createHtmlElement = ({
@@ -40,7 +33,8 @@ const domManipulation = (() => {
   };
 
   return {
-    createHtmlElement, createImage,
+    createHtmlElement,
+    setRequired,
   };
 })();
 
