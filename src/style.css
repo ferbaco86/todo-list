@@ -61,9 +61,8 @@ section {
 
 .card-footer-item {
   cursor: pointer;
-
 }
 
 .card-footer-item:hover {
-  color: #BDB2FF;
+  color: #bdb2ff;
 }
