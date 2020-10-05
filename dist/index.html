@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/17f821a36f.js" crossorigin="anonymous"></script>
+  <link href="./style/main.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/default/bulmaswatch.min.css">
+  <title>To-Do List</title>
+</head>
+<body>
+  <main class="columns">
+    <aside class="column is-3 has-text-centered section">
+      <h2 class="title is-2">Projects</h2>
+      <div class="field">
+        <div id ="alertMessage" class="notification is-danger is-hidden">
+          <h5 class="title is-5 has-text-centered">You need to add a project title!</h5>
+        </div>
+      </div>
+      <div class="field has-addons">
+        <p class="control">
+          <input class="input" placeholder="Enter Title here..." type="text" name="project-title" id="project-title" required>
+        </p>
+        <p class="control">
+          <button class="button is-info" id="btn-add-project" type="button">Add Project</button>
+        </p>
+      </div>
+      <div>
+        <div id="project-container" class="field project-btn-container">
+        </div>
+      </div>
+    </aside>
+    <section class="column is-9 has-text-centered section" id="todo-section">
+      <h2 class="title is-2">To-Do's</h2>
+      <div class="field">
+        <button class="button is-primary" id="btn-show-form" type="button">Click Here to add To-Do's</button>
+      </div>
+      <form class="form column is-4 container is-hidden">
+        <div class="field">
+          <div id ="todoAlertMessage" class="notification is-danger is-hidden">
+            <h5 class="title is-5 has-text-centered">All fields required!</h5>
+          </div>
+        </div>
+        <div class="field">
+          <p class="control">
+            <label for="to-do-title" class="label">Title</label>
+            <input type="text" class="input" id="to-do-title" required>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <label for="to-do-description" class="label">Description</label>
+            <textarea class="textarea" id="to-do-description" cols="20" rows="2" required></textarea>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <label for="to-do-date" class="label">Due Date</label>
+            <input id="to-do-date" type="date" required>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <label for="priority" class="label">Priority</label>
+            <span class="select">
+              <select id="priority">
+                <option>Low</option>
+                <option>Mid</option>
+                <option>High</option>
+              </select>
+            </span>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <label for="to-do-notes" class="label">Notes</label>
+            <textarea class="textarea" id="to-do-notes" cols="20" rows="2" required></textarea>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <button class="button is-primary" type="button" id="btn-add-todo">Add To-Do</button>
+          </p>
+        </div>
+      </form>
+      <div class="cards-container"></div>
+    </section>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

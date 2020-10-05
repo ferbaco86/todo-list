@@ -1,0 +1,42 @@
+{
+  "name": "todo-list",
+  "version": "1.0.0",
+  "description": "A To-Do list web app created with Javascript",
+  "main": "index.js",
+  "dependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "stylelint": "^13.3.3",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-csstree-validator": "^1.8.0",
+    "stylelint-scss": "^3.17.2"
+  },
+  "devDependencies": {
+    "css-loader": "^4.3.0",
+    "css-minimizer-webpack-plugin": "^1.1.4",
+    "file-loader": "^6.1.0",
+    "mini-css-extract-plugin": "^0.11.2",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode development",
+    "build:prod": "webpack --mode production",
+    "start": "webpack-dev-server --host 0.0.0.0 --port 7000",
+    "watch": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ferbaco86/todo-list.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ferbaco86/todo-list/issues"
+  },
+  "homepage": "https://github.com/ferbaco86/todo-list#readme"
+}
