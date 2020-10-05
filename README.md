@@ -8,7 +8,7 @@ A To-Do list web app created with Javascript
 * Created using Javascript and DOM manipulation  
 
 ## Screenshots
-![pic_1](https://user-images.githubusercontent.com/52765379/95005351-a46d6780-05cd-11eb-87f9-185945dcce1e.png))
+![pic_1](https://user-images.githubusercontent.com/52765379/95005351-a46d6780-05cd-11eb-87f9-185945dcce1e.png)
 
 ## Built With
 
