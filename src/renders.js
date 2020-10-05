@@ -5,14 +5,14 @@ import projects from './projects';
 const renders = (() => {
   const renderTodos = (todoTitle, todoDueDate, todoDescription,
     todoPriority, todoNotes, project, todo) => {
-    const cardContainer = document.querySelector('.cards-container');
+    const cardContainer = domManipulation.getHtmlElement({ byQueryClass: '.cards-container' });
     const toDoArray = project.getTodo();
     const toDoIndex = toDoArray.indexOf(todo);
 
     let newToDoPriority = todoPriority;
 
     const cardColumn = domManipulation.createHtmlElement({ tag: 'div', parentElement: cardContainer, arrayClassNames: ['card', 'column', 'is-3'] });
-    cardColumn.setAttribute('data-index', toDoIndex);
+    domManipulation.setHtmlAttributes(cardColumn, 'data-index', toDoIndex);
 
     // Card Header and the card's title that's inside this header
     const cardHeader = domManipulation.createHtmlElement({ tag: 'header', parentElement: cardColumn, arrayClassNames: ['card-header'] });
@@ -57,7 +57,7 @@ const renders = (() => {
       tag: 'label', parentElement: editForm, arrayClassNames: ['label'], text: ' New Title',
     });
     const editInputTitle = domManipulation.createHtmlElement({ tag: 'input', parentElement: editForm, arrayClassNames: ['input', 'my-10'] });
-    editInputTitle.setAttribute('type', 'text');
+    domManipulation.setHtmlAttributes(editInputTitle, 'type', 'text');
     domManipulation.createHtmlElement({
       tag: 'label', parentElement: editForm, arrayClassNames: ['label'], text: ' New Priority',
     });
@@ -70,21 +70,21 @@ const renders = (() => {
       tag: 'label', parentElement: editForm, arrayClassNames: ['label'], text: ' New Due Date',
     });
     const editInputDueDate = domManipulation.createHtmlElement({ tag: 'input', parentElement: editForm, arrayClassNames: ['input', 'my-10'] });
-    editInputDueDate.setAttribute('type', 'date');
+    domManipulation.setHtmlAttributes(editInputDueDate, 'type', 'date');
     domManipulation.createHtmlElement({
       tag: 'label', parentElement: editForm, arrayClassNames: ['label'], text: ' New Description',
     });
     const editInputDescription = domManipulation.createHtmlElement({ tag: 'textarea', parentElement: editForm, arrayClassNames: ['textarea', 'my-10'] });
-    editInputDescription.setAttribute('cols', '10');
-    editInputDescription.setAttribute('rows', '1');
+    domManipulation.setHtmlAttributes(editInputDescription, 'cols', '10');
+    domManipulation.setHtmlAttributes(editInputDescription, 'rows', '1');
+
 
     domManipulation.createHtmlElement({
       tag: 'label', parentElement: editForm, arrayClassNames: ['label'], text: ' New Notes',
     });
     const editInputNotes = domManipulation.createHtmlElement({ tag: 'textarea', parentElement: editForm, arrayClassNames: ['textarea', 'my-10'] });
-    editInputNotes.setAttribute('cols', '10');
-    editInputNotes.setAttribute('rows', '1');
-
+    domManipulation.setHtmlAttributes(editInputNotes, 'cols', '10');
+    domManipulation.setHtmlAttributes(editInputNotes, 'rows', '1');
 
     const field = domManipulation.createHtmlElement({ tag: 'div', parentElement: editForm, arrayClassNames: ['field'] });
     const notification = domManipulation.createHtmlElement({
@@ -113,7 +113,7 @@ const renders = (() => {
       const storageToDos = projects.projectList[projects.projectList.currentProjectId].arrayOfToDos;
       const storageTodo = storageToDos[indexToDo];
 
-      if (todos.todoValidation(editInputTitle, editInputDescription,
+      if (domManipulation.todoValidation(editInputTitle, editInputDescription,
         editInputDueDate, editInputNotes, e) === true) {
         updatedTodo.setTitle(editInputTitle.value);
         updatedTodo.setPriority(editInputPriority.value);
@@ -127,18 +127,18 @@ const renders = (() => {
         storageTodo[3] = editInputPriority.value;
         storageTodo[4] = editInputNotes.value;
 
-        cardTitle.innerHTML = updatedTodo.getTitle();
-        toDoDueDateText.innerHTML = updatedTodo.getDueDate();
-        toDoDescriptionText.innerHTML = updatedTodo.getDescription();
-        todoNotesText.innerHTML = updatedTodo.getNotes();
+        domManipulation.setInnerHtml(cardTitle, updatedTodo.getTitle());
+        domManipulation.setInnerHtml(toDoDueDateText, updatedTodo.getDueDate());
+        domManipulation.setInnerHtml(toDoDescriptionText, updatedTodo.getDescription());
+        domManipulation.setInnerHtml(todoNotesText, updatedTodo.getNotes());
         newToDoPriority = updatedTodo.getPriority();
         const priorityClass = cardTitle.classList;
 
         todos.setPriorityColor(newToDoPriority, cardTitle, priorityClass);
 
-        cardContent.classList.toggle('is-hidden');
-        editForm.classList.toggle('is-hidden');
-        cardHeader.classList.toggle('is-hidden');
+        domManipulation.toggleClass(cardContent, 'is-hidden');
+        domManipulation.toggleClass(editForm, 'is-hidden');
+        domManipulation.toggleClass(cardHeader, 'is-hidden');
 
         localStorage.setItem('projectList', JSON.stringify(projects.projectList));
       }
@@ -149,15 +149,15 @@ const renders = (() => {
       tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: '<i class="fas fa-info-circle"></i>',
     });
     detailsButton.addEventListener('click', () => {
-      detailsContent.classList.toggle('is-hidden');
+      domManipulation.toggleClass(detailsContent, 'is-hidden');
     });
     const editButton = domManipulation.createHtmlElement({
       tag: 'div', parentElement: cardFooter, arrayClassNames: ['card-footer-item'], text: '<i class="fas fa-edit"></i>',
     });
     editButton.addEventListener('click', () => {
-      cardContent.classList.toggle('is-hidden');
-      editForm.classList.toggle('is-hidden');
-      cardHeader.classList.toggle('is-hidden');
+      domManipulation.toggleClass(cardContent, 'is-hidden');
+      domManipulation.toggleClass(editForm, 'is-hidden');
+      domManipulation.toggleClass(cardHeader, 'is-hidden');
     });
 
 
@@ -182,17 +182,17 @@ const renders = (() => {
       tag: 'button', parentElement: projectContainer, arrayClassNames: ['button', 'project-btn'], text: projectTitle,
     });
 
-    const buttonList = document.querySelectorAll('.project-btn');
+    const buttonList = domManipulation.getHtmlElement({ byQueryAllClass: '.project-btn' });
 
     buttonList.forEach(element => {
       if (element.classList.contains('active')) {
-        element.classList.remove('active');
+        domManipulation.removeClasses(element, ['active']);
       }
     });
 
-    btnProject.setAttribute('id', projectId);
+    domManipulation.setHtmlAttributes(btnProject, 'id', projectId);
 
-    btnProject.classList.add('active');
+    domManipulation.addClasses(btnProject, ['active']);
     todos.clearTodoContainer();
   };
 

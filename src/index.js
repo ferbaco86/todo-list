@@ -2,14 +2,15 @@ import renders from './renders';
 import projects from './projects';
 import todos from './todos';
 import './style.css';
+import domManipulation from './helpers';
 
 let counter = 0;
 
-const btnAddProject = document.getElementById('btn-add-project');
-const btnShowForm = document.getElementById('btn-show-form');
-const btnAddTodo = document.getElementById('btn-add-todo');
+const btnAddProject = domManipulation.getHtmlElement({ byId: 'btn-add-project' });
+const btnShowForm = domManipulation.getHtmlElement({ byId: 'btn-show-form' });
+const btnAddTodo = domManipulation.getHtmlElement({ byId: 'btn-add-todo' });
 
-const projectContainer = document.getElementById('project-container');
+const projectContainer = domManipulation.getHtmlElement({ byId: 'project-container' });
 
 // if there's info on localStorage, load it
 
@@ -58,8 +59,8 @@ if (projects.projectList.list.length === 0) {
 // Listener for the click event of the button we use to create a project
 btnAddProject.addEventListener('click', () => {
   const titleInput = document.getElementById('project-title');
-  if (projects.projectValidation(titleInput) === true) {
-    const projectTitleInput = document.getElementById('project-title').value;
+  if (domManipulation.projectValidation(titleInput) === true) {
+    const projectTitleInput = domManipulation.getHtmlElement({ byId: 'project-title' }).value;
     projects.createProject(projectTitleInput, counter);
     renders.renderProjectsBtns(projectTitleInput, counter,
       projectContainer);
@@ -75,22 +76,7 @@ btnAddProject.addEventListener('click', () => {
 projectContainer.addEventListener('click', (e) => {
   const selTarget = e.target;
 
-
-  if (selTarget.nodeName === 'BUTTON') {
-    projects.projectList.currentProjectId = selTarget.getAttribute('id');
-
-    todos.clearTodoContainer();
-
-    renders.retrieveTodos(projects.projectList.getCurrent());
-
-    const buttonList = document.querySelectorAll('.project-btn');
-    buttonList.forEach((button) => {
-      if (button === selTarget && !button.classList.contains('active')) {
-        return button.classList.add('active');
-      }
-      return button.classList.remove('active');
-    });
-  }
+  domManipulation.setProjectActive(selTarget, projects, todos, renders);
 });
 
 
@@ -98,29 +84,25 @@ projectContainer.addEventListener('click', (e) => {
 // and changing the button text accordingly
 btnShowForm.addEventListener('click', (e) => {
   const btnTarget = e.target;
-  const form = document.querySelector('.form');
-  form.classList.toggle('is-hidden');
-  if (btnTarget.innerHTML === "Click Here to add To-Do's") {
-    btnTarget.innerHTML = 'Hide Form';
-  } else {
-    btnTarget.innerHTML = "Click Here to add To-Do's";
-  }
+  const form = domManipulation.getHtmlElement({ byQueryClass: '.form' });
+  domManipulation.showAndHideForm(form, btnTarget);
 });
 
 // This click event listener acts on the add to-do button in the form
 btnAddTodo.addEventListener('click', (e) => {
   const projectTodo = projects.projectList.getCurrent();
-  const todoTitleInput = document.getElementById('to-do-title');
-  const todoDescriptionInput = document.getElementById('to-do-description');
-  const todoDueDateInput = document.getElementById('to-do-date');
-  const todoNotesInput = document.getElementById('to-do-notes');
-  if (todos.todoValidation(todoTitleInput, todoDescriptionInput,
+  const todoTitleInput = domManipulation.getHtmlElement({ byId: 'to-do-title' });
+  const todoDescriptionInput = domManipulation.getHtmlElement({ byId: 'to-do-description' });
+  const todoDueDateInput = domManipulation.getHtmlElement({ byId: 'to-do-date' });
+  const todoNotesInput = domManipulation.getHtmlElement({ byId: 'to-do-notes' });
+
+  if (domManipulation.todoValidation(todoTitleInput, todoDescriptionInput,
     todoDueDateInput, todoNotesInput, e) === true) {
-    const todoTitle = document.getElementById('to-do-title').value;
-    const todoDescription = document.getElementById('to-do-description').value;
-    const todoDueDate = document.getElementById('to-do-date').value;
-    const todoPriority = document.getElementById('priority').value;
-    const todoNotes = document.getElementById('to-do-notes').value;
+    const todoTitle = todoTitleInput.value;
+    const todoDescription = todoDescriptionInput.value;
+    const todoDueDate = todoDueDateInput.value;
+    const todoPriority = domManipulation.getHtmlElement({ byId: 'priority' }).value;
+    const todoNotes = todoNotesInput.value;
     const newTodo = todos.todo(todoTitle, todoDescription, todoDueDate, todoPriority, todoNotes);
     projectTodo.appendTodo(newTodo);
     projects.projectList[projects.projectList.currentProjectId].arrayOfToDos.push(newTodo.getAll());

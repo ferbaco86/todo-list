@@ -41,8 +41,8 @@ const todos = (() => {
   };
 
   const clearTodoContainer = () => {
-    const todoSection = document.getElementById('todo-section');
-    const cardsContainer = document.querySelector('.cards-container');
+    const todoSection = domManipulation.getHtmlElement({ byId: 'todo-section' });
+    const cardsContainer = domManipulation.getHtmlElement({ byQueryClass: '.cards-container' });
     cardsContainer.remove();
 
     domManipulation.createHtmlElement({ tag: 'div', parentElement: todoSection, arrayClassNames: ['cards-container'] });
@@ -52,48 +52,28 @@ const todos = (() => {
     switch (newToDoPriority) {
       case 'High':
         if (priorityClass !== null) {
-          cardTitle.classList.remove(priorityClass[1]);
+          domManipulation.removeClasses(cardTitle, [priorityClass[1]]);
         }
-        cardTitle.classList.add('priority-high');
+        domManipulation.addClasses(cardTitle, ['priority-high']);
         break;
 
       case 'Mid':
-        cardTitle.classList.add('priority-mid');
+        domManipulation.addClasses(cardTitle, ['priority-mid']);
+
         break;
 
       case 'Low':
-        cardTitle.classList.add('priority-low');
+        domManipulation.addClasses(cardTitle, ['priority-low']);
         break;
 
       default:
         break;
     }
   };
-
-  const todoValidation = (inputTitle, inputDescription, inputDueDate, inputNotes, event) => {
-    let alertMessageDiv;
-    if (event.currentTarget.getAttribute('id') === 'btn-add-todo') {
-      alertMessageDiv = document.getElementById('todoAlertMessage');
-    } else {
-      alertMessageDiv = document.getElementById('updateAlert');
-    }
-    let valid;
-    if (inputTitle.validity.valueMissing
-      || inputDescription.validity.valueMissing || inputDueDate.validity.valueMissing
-      || inputNotes.validity.valueMissing || inputNotes.validity.valueMissing) {
-      alertMessageDiv.classList.remove('is-hidden');
-      valid = false;
-    } else {
-      alertMessageDiv.classList.add('is-hidden');
-      valid = true;
-    }
-    return valid;
-  };
   return {
     todo,
     clearTodoContainer,
     setPriorityColor,
-    todoValidation,
   };
 })();
 
